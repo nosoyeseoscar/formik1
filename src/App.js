@@ -4,6 +4,9 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 /* importamos Yup para validaciones */
 import * as yup from "yup";
 import './App.css';
+/* importamos los componentes ya hechos de material-ui-formik-components */
+import { TextField } from "material-ui-formik-components/TextField";
+import Button from '@material-ui/core/Button';
 
 const valoresIniciales = {
   /* Valores iniciales de la forma */
@@ -21,7 +24,7 @@ const validacionLogin = yup.object().shape({
       .min(8, "minimo 8 caracteres.")
       .max(16, "maximo 16 caracteres")
       /* .matches("/^(?=.*[a-z]{1})(?=.*[A-Z]{1})(?=.*[0-9]{1})$/","debe tener al menos una mayusculas, minuscula y un numero") */
-      .matches(/(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])/, "La contraseña debe tener un número, una mayuscula y una minuscula cuanto menos.")
+      .matches(/(?=.*[0-9])(?=.*[A-Z])(?=.*[a-z])/, "La contraseña debe tener un número, una mayuscula y una minuscula al menos.")
       .required("tu correo electrònico es requerido"),
 })
 
@@ -62,21 +65,20 @@ function App() {
           ) => {
               return (
                 /* Componente para renderizar formulario------------------------------------ */
-                <Form name="contact" method="post" onSubmit={handleSubmit}>
-                  <label htmlFor="email">
-                    Correo electrónico                    
-                    <Field type="email" name="email" placeholder="tu correo electrónico."/>
-                  </label>
-                  <ErrorMessage name="email"></ErrorMessage>
-                  <label htmlFor="pass">
-                    Contraseña
-                    <Field type="password" name="pass" placeholder="tu contraseña"/>
-                  </label>
-                  <ErrorMessage name="pass"></ErrorMessage>
-                  <button type="submit" disabled={!(isValid && dirty) || isSubmitting}>
-                    {isSubmitting ? `Enviando...` : `Enviar`}
-                  </button>
-                </Form>
+                <div className="forma">
+                  <h2 className="centrado">Formulario de Ingreso</h2>
+                  <Form name="ingreso" method="post" onSubmit={handleSubmit} >                       
+                    <Field type="email" label="Correo electrónico " name="email" placeholder="tu correo electrónico." component={TextField}/>
+                    <ErrorMessage name="email"></ErrorMessage>  
+  
+                    <Field type="password" label= "Contraseña"name="pass" placeholder="tu contraseña" component={TextField}/>
+                    <ErrorMessage name="pass"></ErrorMessage>
+  
+                    <Button type="submit" disabled={!(isValid && dirty) || isSubmitting} variant="contained" color="primary">
+                      {isSubmitting ? `Enviando...` : `Enviar`}
+                    </Button>
+                  </Form>
+                </div>
               );
           }
         }
